@@ -1,0 +1,106 @@
+= Oracle Business Breakfast Juli 2015 - SMF
+
+Hauptarten von Services:
+
+* `daemon` - überwacht, wird ggf. neu gestartet
+
+* `transient` - läuft genau 1x, *kein* Neustart
+
+* `wait` - Neustart, sobald der Prozess beendet wird
+
+
+Man kann die SMF-Variablen in eigene Start-/Stop-Scripts einbinden:
+[source,shell]
+----
+/lib/svc/usr/smf_include.sh
+----
+
+`svcbundle(1m)` -> kann Config-Files erzeugen, die man z. B. mit
+Config-Management oder zur Installation ausrollen kann.
+
+Contract Filesystem:
+`ctstat` und `ctwatch`
+
+[source,shell]
+----
+svcs -L <service>
+svcprop <FMRI> -> zeigt alle Properties
+svcs -L <service> -> Logfile Location
+svcs -Lv <service> -> Logfile anschauen
+svcs -s <FMRI> editprop
+svcs -s <FMRI> listcust
+svcs -s <FMRI> delcust
+----
+
+Um einen Service mit dediziertem Environment laufen zu lassen, kann
+man der Service-Konfiguration diese Variablen rein konfigurieren:
+[source,shell]
+----
+svccfg -s <FMRI> setenv VARIABLE value
+----
+
+Beispiel: `libumem` oder `libmtmalloc` sind Alternativen zu `malloc`
+aus der libc. Nachteil von `malloc´: kann immer nur zeitgleich für
+einen Thread allokieren. Die anderen beiden können parallel
+allokieren, das kann bei vielen parallelen Threads zu
+Performance-Vorteilen führen.
+
+Environment und CLI-Aufruf eines Prozesses:
+[source,shell]
+----
+pargs -e
+pargs -c
+----
+
+
+Rechteprofile auf z. B. einzelne Files vergeben:
+[source,shell]
+----
+profile -p <rechteprofil>
+usermod -p +"rechteprofil" <username>
+auths add -t "Apache22 value" solaris.smf.value.http.apache22
+auths add -t "Apache22 action" solaris.smf.action.http.apache22
+svccfg -s <FMRI> setprop general/value_authorization
+solaris.smf.action.http.apache22
+profiles -p <profile_name> ...?
+----
+
+
+Mail-Template für SVC Status-Änderungen kann man ändern bzw. per
+Variablen "personalisieren". Für Variablen sh. Manpage `svccfg(1m)`.
+
+Notifications setzen und anzeigen:
+[source,shell]
+----
+svccfg -s <FMRI> setnotify
+svccfg -s <FMRI> listnotify
+----
+
+Speziell zur Behandlung von `resolv.conf` und `nsswitch.conf` kann man
+`nscfg` benutzen. Nach der "Umwandlung" müssen die Werte in den
+Service importiert werden:
+[source,shell]
+----
+nscfg import -fv <FMRI>
+----
+
+Um aus einem Script bzw. einem CLI-Aufruf ein Service-Manifest zu
+bauen:
+[source,shell]
+----
+svcbundle <blubb.sh>
+cp blubb.xml /lib/svc/manifest/site
+svcadm restart manifest-import
+svcs blubb
+----
+
+In Solaris 11.3: Remote Administration per Python, _Remote
+Administration Daemon_ (RAD), JSON-based:
+[source,python]
+----
+import rad.client
+import rad.connect
+import rad.auth
+import rad.bindings.com.oracle.solaris.rad.smf_1
+----
+
