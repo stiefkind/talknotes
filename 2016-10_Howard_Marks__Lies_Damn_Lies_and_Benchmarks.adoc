@@ -1,0 +1,88 @@
+= Lies, Damn Lies and Benchmarks
+:encoding: utf-8
+:Author: Wolfgang Stief
+:email: ws@stief-consulting.de
+:Author Initials: wgs
+:revisionhistory:
+// :doctype: book
+:toc:
+:icons:
+:numbered:
+:website: http://www.ingenieurbuero-stief.de/
+:lang: de
+
+Sprecher: Howard Marks
+
+Quelle: https://www.youtube.com/watch?v=vttdv2hQD6A
+
+
+* Die meisten Benchmarks sind an mindestens einer Stelle falsch oder
+  kaputt.
+
+* _"Customers just can't benchmark with their own applications."_ ->
+  ist i. d. R. viel zu aufwendig und zu teuer.
+
+Verschiedene Benchmark-Schwächen:
+
+* zu stark vereinfachende Micro-Benchmarks (iometer, fio, vdbench)
+
+* nicht öffentlich verfügbare Benchmarks (SPC-1)
+
+* spezialisierte Applikations-Benchmarks
+
+
+Die meisten veröffentlichten Benchmarks basieren auf:
+
+* 8kB Blocksize
+
+* Lese-/Schreibverhältnis von 60/40
+
+* 100% random Zugriffe
+
+Dieses Muster passt lediglich auf *ca. 7%* aller OLTP-Anwendungen!
+Nur ca. 30% aller installierten SQL-Server haben überhaupt eine
+Blocksize von 8kB.
+
+_*"It's not about averages!"*_
+
+Das eigentliche Problem ist die deutliche Weiterentwicklung von
+Storage Systemen. In den 90er hatte man häufig nur eine einzelne
+Platte. 8kB Blocksize bei 100% random access war der _worst case_ für
+eine einzelne Platte. Das ist heutzutage aber längst nicht mehr so!
+
+
+== Basic Benchmark Lies
+
+* IOPS ohne Latenz: 1 Mio. IOPS bei 2000ms Latenz ist nicht benutzbar.
+
+* Viele Benchmarks werden von Leuten durchgeführt, die *nie* in einem
+  Rechenzentrum gearbeitet haben.
+
+* Zeitschriften messen Enterprise Storage mit den selben Werkzeugen
+  und den selben Kriterien, wie sie auch einzelne Consumer Disks
+  messen.
+
+* Dataset muss *größer* als der Cache sein, sonst misst man 100% read
+  auf Cache/Flash (_"dataset size smaller then performance layer"_).
+
+
+== The six areas of Storage I/O
+
+* Lese-/Schreibverhältnis und -Mix
+
+* räumliche Verteilung des I/O
+  * nebeneinander bzw. fortlaufend (adjacent/sequential)
+  * Hotspots und Regionen mit nur wenig oder ohne I/O
+
+* Kompressionsfaktor der Daten
+
+* Deduplizierung von Daten
+
+* Verteilung über die Zeit (z. B. Batch-Betrieb)
+
+* ??
+
+
+Code/Tools von _The OtherOtherOperation_ auf Github (mostly vdbench
+related): https://github.com/TheOtherOtherOperation
+
