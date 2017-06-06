@@ -1,0 +1,189 @@
+= FlashForward Fachkonferenz, München, 2017-06-01
+:encoding: utf-8
+:Author: Wolfgang Stief
+:email: ws@stief-consulting.de
+:Author Initials: wgs
+:revisionhistory:
+// :doctype: book
+:toc:
+:icons:
+:numbered:
+:website: http://www.ingenieurbuero-stief.de/
+:lang: de
+
+
+== Flash ist nicht gleich Flash! Auf was müssen Sie achten?
+
+Kurt Gerecke, TechData/Azlan
+
+
+* DRAM hat ca. 1ns Zugriffszeit, wird *immer* das schnellste bleiben.
+
+* schnelle Plattensysteme haben ca. 1ms Antwortzeit
+
+* Flash füllt Lücke zwischen 1μs ... 100μs, je nach Bauart/Technologie
+
+[width="50%",cols=">,>,>",frame="topbot",options="header"]
+|==========================
+|        | write cycles / cell | access time
+|SLC     |  100.000            |   8 μs
+|eMLC    |   30.000            |  18 μs
+|MLC+    |   50.000            |  18 μs
+|MLC     | 3.000 .. 5.000      |  40 μs
+|TLC     |    1.000            | 100 μs
+|==========================
+
+
+* Immer *wichtig* zu hinterfragen bei SSDs: Welche Technologie ist
+  verbaut?
+
+* Prüfbar über Stromverbrauch des Device: durchpressen von
+  Ladungsträgern durch die Oxid-Schicht braucht Strom. Ein Device, das
+  viel Strom braucht, macht auch viele Durchpressvorgänge, hat also
+  eine *geringere* Lebensdauer.
+
+* Flash ist (intern) deutlich stärker abgesichert (Ausfallsicherheit),
+  als alle bisher dagewesenen Massenspeicher-Technologien.
+
+* Wichtig im Datenblatt einer SSD: _Endurance DWPD_ bzw. _Endurance
+  total_, also welche Datenmenge man pro Tag bzw. über die gesamte
+  Lebensdauer der SSD auf das Device schreiben kann. Der (früher
+  gerne benutzte) Wert für MTBF ist bei Flash häufig über alle
+  Baureihen eines Herstellers gleich. 
+
+
+
+== Technologie-Trends und Einsatzszenarien: Daten- und Storage-Strategien im digitalen Zeitalter
+
+Dr. Carlo Velten, Crisp Research
+
+
+* Der (strenge deutsche) Datenschutz wird zum Hemmnis bei der
+  digitalen Wertschöpfung.
+
+* Daten sind zukünftig ein Wettbewerbsvorteil.
+
+
+
+== SNIA Europe: Flash in der Praxis
+
+Stefan Lein, SNIA Europe
+
+* Data Reduction Technologies: In Flash-Arrays werden häufig
+  Mechanismen zur Datenreduktion eingesetzt (Compression,
+  Deduplication). Nicht alle Datensorten lassen sich gleich gut
+  reduzieren, Wirksamkeit hängt stark von Anwendung und deren Daten
+  ab!
+
+* IDC sieht _secondary economic benefits_ von Flash Deployments:
+** deutlich weniger Storage-Devices
+** weniger Umweltbelastung im Betrieb
+** weniger Server
+** geringere Lizenzkosten
+** geringere Administrationskosten
+** sehr viel zuverlässigere Devices
+
+* Wo wird Flash derzeit eingesetzt?
+** Hybrid Storage Arrays
+** All Flash Arrays
+** SDS/virtualisierte Storage-Environments
+** als direct attached Devices
+** In Zukunft: Persistent Memory, Storage Class Memory (SCM)
+
+
+
+== The Xtremio Projekt
+
+Bernd Schwenk, CIO, Adva Optical Network
+
+
+== High-Speed-Speicher: So lösen Sie das Multilatenz-Problem
+
+William Oppermann, VP, MPSTOR
+
+
+* link:http://www.mpstor.com[MPSTOR] ist europäische Firma
+
+* forschen im Zuge von _HORIZON 2020_ (EU Forschungsprojekt) daran,
+  wie man das Multilatenz-Problem in den Griff bekommt.
+
+* Storage Provisioning versteht man zwischenzeitlich sehr gut.
+
+* Performance Provisioning ist noch weitgehend unbekannt, kaum jemand
+  hat Erfahrung mit automatisierten Abläufen in dem Bereich.
+
+* Kern-Ansatz für IOSTACK (Forschungsprojekt) ist das sog. _disaggregated
+  data center_: Compute, Storage und Netzwerk sollen unabhängig
+  voneinander skalieren können.
+
+
+
+== Flash in bestehende Strukturen integrieren und im Datacenter maximalen Nutzen aus der Technologie ziehen und Best Practices: typische Fehler vermeiden und von praxiserprobten Lösungen profitieren: Von Lieferzeiten zu Antwortzeiten
+
+Jens Leischner, sanboard
+
+
+== Referenzkundenbericht zum Thema Sprint, Morrisons, HBOS and Lloyds
+
+Kai Preuss, Country Manager DACH, Virtual Instruments
+
+
+== Software-defined Storage in der Praxis: Referenzkundenbericht zum Thema Einführung von Flash und Speicherkonsolidierung beim Universitätsklinikum Würzburg
+
+Klaus Stärk, Teamleiter Systeme / Server / Storage,
+Universitätsklinikum Würzburg
+
+
+== Was wird aus der Festplatte?
+
+Hermann Strass
+
+
+== Ausblick auf die Entwicklung von Flash/SSD/NVMe und deren Einfluss auf IT-Infrastrukturen und Prozesse im Unternehmen: Flash und die Zukunft -- mit was Sie demnächst rechnen müssen
+
+Engelbert Hörmannsdorfer, speicherguide.de
+
+* Flash-Alternativen:
+** PCM -- Phase Change Memory (IBM)
+** 3D Xpoint -- Intel (Optane), Micron
+** ReRAM -- Western Digital, SanDisk
+** Memristor -- HPE (SanDisk)
+** NRAM -- Fujitsu (Kohlenstoffnanoröhrchen)
+** NVDIMM
+
+*Takeaways:* NVMe kommt, befassen Sie sich damit! Und befassen Sie
+ sich mit Ihrem Netzwerk (NVMe Device < 10μs, SCSI-Verbindung 100μs!)
+ 
+
+== SNIA Europe: Ausblick auf kommende Standards
+
+Stefan Lein, SNIA Europe
+
+____
+You *cannot remove a bottleneck*.
+All you can do is to move it somewhere else.
+____
+
+
+* NVMe is architectured for NVM
+** Command Queue: 64k Queues mit je 64k Commands (SATA: 1 Queue/32
+   Commands; SAS/SCSI: 1 Queue/64 Commands)
+** nur 13 Kommando-Primitive
+
+* aktuelle Standards:
+** NVMe 1.3, 2. HJ 2016
+** NVMe over Fabrics, Juni 2016
+
+* NVMe over Fabrics
+** Design-Ziel: remote NVMe gleichwertig machen zu lokalem NVMe ->
+   <10μs latency
+** zwei verschiedene Typen derzeit supported:
+*** NVMeoF RDMA (requires _lossless ethernet_)
+*** NVMeoF FC (aka FC-NVMe) -> geht nur über Gen5/6 FC (16/32 Gbit/s)
+
+* Konvergenz Storage/Memory?
+** IoT, Cognitive Computing, In-Memory Computing, Real Time Data ist
+   alles speicherhungrig
+** DRAM ist teuer und braucht mehr Strom
+** SCM/PM ist major focus der SNIA SSSI, Ziel sind 10^1 ... 10^3 ns
+   Latenz
