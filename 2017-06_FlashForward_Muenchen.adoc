@@ -5,9 +5,9 @@
 :Author Initials: wgs
 :revisionhistory:
 // :doctype: book
-:toc:
+// :toc:
 :icons:
-:numbered:
+// :numbered:
 :website: http://www.ingenieurbuero-stief.de/
 :lang: de
 
